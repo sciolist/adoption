@@ -28,10 +28,21 @@ namespace Adoption.Tests
         {
             var proc = new Processor(defaultArgument: "--test");
             var test = proc.Handle("--test").TakesManyValues();
-            var set = new[] {"foo", "bar"};
+            var set = new[] { "foo", "bar" };
             proc.Process(set);
 
             Assert.That(test.Value, Is.EquivalentTo(set));
+        }
+
+        [Test]
+        public void CanImplyFlagWhenPassingMultipleKeys()
+        {
+            var proc = new Processor(defaultArgument: "--test");
+            var test = proc.Handle("--test");
+            var set = new[] { "--bar", "--test", "foo" };
+            proc.Process(set);
+
+            Assert.That(test.Value, Is.EqualTo("foo"));
         }
 
         [Test]
