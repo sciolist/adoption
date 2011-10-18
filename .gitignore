@@ -1,0 +1,7 @@
+*ReSharper*
+*.vspscc
+*.user
+*.suo
+*.sln.cache
+[Bb]in
+[Oo]bj
