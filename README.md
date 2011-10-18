@@ -11,7 +11,7 @@ Code
         var processor = new Adoption.Processor(defaultArgument: "--value");
         var key = processor.Handle("--key", "-k").Required().Describe("Which key to set.");
         var value = processor.Handle("--value", "-v").Describe("The value to set for the key.");
-        var remove = processor.Handle("--remove", "-r").TakesValue(false).Describe("Remove the old key");
+        var remove = processor.Handle("--remove", "-r").Flag().Describe("Remove the old key");
         try
         {
             processor.Process(new[]{ "--key", "id", "100" });
