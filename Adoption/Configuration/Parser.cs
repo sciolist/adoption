@@ -30,6 +30,8 @@ namespace Adoption.Configuration
                 var start = scanner.Position;
                 scanner.Skip(@"^\s+");
                 var keyPart = scanner.Scan(@"^((?<key>-\w)[\s]?|(?<key>--.*?)(\s|$))");
+                var keyOffset = scanner.Position;
+
                 var valuePart = scanner.Scan(@"^(?!-)(\""(?<value>.*?)\""|(?<value>.*?)(\s|$))");
                 matched = keyPart != null || valuePart != null;
                 var arg = _processor.ArgumentConfiguration(keyPart == null ? _processor.DefaultArgument : keyPart.Groups["key"].Value);
@@ -42,7 +44,12 @@ namespace Adoption.Configuration
 
                 if(arg == null)
                 {
-                    results.UnresolvedParts.Add(_source.Substring(start, scanner.Position - start));
+                    if(keyOffset > -1)
+                    {
+                        results.UnresolvedParts.Add(_source.Substring(start, keyOffset - start).Trim());
+                        results.UnresolvedParts.Add(_source.Substring(keyOffset, scanner.Position - keyOffset).Trim());
+                    }
+                    else results.UnresolvedParts.Add(_source.Substring(start, scanner.Position - start).Trim());
                     continue;
                 }
 

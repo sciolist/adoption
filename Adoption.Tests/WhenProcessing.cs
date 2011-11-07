@@ -15,6 +15,14 @@ namespace Adoption.Tests
         }
 
         [Test]
+        public void CanGetUnresolvedParts()
+        {
+            var proc = new Processor();
+            proc.Process(new[] { "--test1", "foo" });
+            Assert.AreEqual(new[] {"--test1", "foo" }, proc.UnresolvedParts);
+        }
+
+        [Test]
         public void CanDisplayHelp()
         {
             const string text = "Supplies a value for tests.";
